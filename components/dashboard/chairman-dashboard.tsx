@@ -10,6 +10,7 @@ import {
   CampusPerformanceBars, 
   RevenueTrendChart 
 } from "./widgets/charts";
+import { TrendingAnalyticsDashboard } from "./widgets/trending-analytics";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -79,6 +80,32 @@ export default function ChairmanDashboard() {
         </div>
       </div>
 
+      {/* 3D Campus Hub Banner */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
+        <div className="space-y-3 z-10 max-w-xl text-left">
+          <div className="inline-flex items-center space-x-2 bg-indigo-550/15 px-3 py-1 rounded-full border border-indigo-500/20 text-xs font-bold text-indigo-400">
+            <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+            <span>Virtual Operational Center</span>
+          </div>
+          <h2 className="text-xl md:text-2xl font-black text-white leading-tight">
+            Strategic Management Center
+          </h2>
+          <p className="text-xs text-slate-400 leading-relaxed font-semibold">
+            Monitor real-time infrastructure threads, educational performance charts, admissions flow, and candidate queues from a single virtual space.
+          </p>
+        </div>
+        <div className="w-full md:w-36 h-36 rounded-xl overflow-hidden border border-slate-850 flex-shrink-0 shadow-2xl relative group">
+          <img 
+            src="/futuristic_college_3d.jpg" 
+            alt="Virtual Hub 3D" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-2">
+            <span className="text-[9px] font-black text-indigo-300 uppercase tracking-widest">3D Campus Model</span>
+          </div>
+        </div>
+      </div>
+
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <KPICard title="Total Students" value="8,642" change="+6.8% vs last month" isPositive={true} type="info" />
@@ -110,6 +137,9 @@ export default function ChairmanDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Real-time Trending & Analytical Graphs */}
+      <TrendingAnalyticsDashboard />
 
       {/* Secondary cards, announcements and metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
