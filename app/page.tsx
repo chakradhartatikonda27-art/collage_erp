@@ -228,10 +228,13 @@ export default function PublicLandingPage() {
 
           {/* Right Floating 3D Image Collage */}
           <div className="lg:col-span-6 flex justify-center items-center perspective-container select-none">
-            <div className="relative w-full max-w-[420px] h-[340px]">
+            <div className="relative w-full max-w-[480px] h-[360px]">
               
-              {/* Back Card (Graduation wing) */}
-              <div className="absolute top-0 right-4 w-60 h-44 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl tilt-card float-slow">
+              {/* Back Card (Graduation wing) - Top Left */}
+              <div 
+                className="absolute rounded-2xl overflow-hidden border border-slate-800 shadow-2xl tilt-card float-slow"
+                style={{ top: '10px', left: '10px', width: '230px', height: '160px', zIndex: 10 }}
+              >
                 <img 
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=500&q=80" 
                   alt="Graduation Wing" 
@@ -242,8 +245,11 @@ export default function PublicLandingPage() {
                 </div>
               </div>
 
-              {/* Middle Card (Central Library) */}
-              <div className="absolute bottom-4 left-0 w-64 h-48 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl tilt-card float-delayed">
+              {/* Middle Card (Central Library) - Bottom Center-Left */}
+              <div 
+                className="absolute rounded-2xl overflow-hidden border border-slate-800 shadow-2xl tilt-card float-delayed"
+                style={{ top: '180px', left: '60px', width: '230px', height: '160px', zIndex: 20 }}
+              >
                 <img 
                   src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=500&q=80" 
                   alt="Central Library" 
@@ -254,8 +260,11 @@ export default function PublicLandingPage() {
                 </div>
               </div>
 
-              {/* Front Main Card (Aeronautical Building) */}
-              <div className="absolute top-16 left-16 w-64 h-48 rounded-2xl overflow-hidden border border-primary-blue/30 shadow-2xl tilt-card glow-glow">
+              {/* Front Main Card (Aeronautical Building) - Middle Right */}
+              <div 
+                className="absolute rounded-2xl overflow-hidden border border-primary-blue/30 shadow-2xl tilt-card glow-glow"
+                style={{ top: '90px', left: '230px', width: '230px', height: '160px', zIndex: 30 }}
+              >
                 <img 
                   src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=500&q=80" 
                   alt="EEC Campus" 
