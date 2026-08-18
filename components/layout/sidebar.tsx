@@ -26,7 +26,8 @@ import {
   Bus,
   MessageSquare,
   ClipboardList,
-  AlertTriangle
+  AlertTriangle,
+  Globe
 } from "lucide-react";
 
 interface MenuItem {
@@ -78,6 +79,7 @@ export default function Sidebar() {
     {
       name: "System",
       items: [
+        { title: "Public Portal", icon: Globe, roles: ["super_admin", "inst_admin", "chairman", "principal"] },
         { title: "Documents", icon: File },
         { title: "Communication", icon: MessageSquare },
         { title: "Settings", icon: Settings }

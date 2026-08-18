@@ -20,6 +20,7 @@ import FinanceModule from "@/components/modules/finance-module";
 import HRModule from "@/components/modules/hr-module";
 import ServicesModule from "@/components/modules/services-module";
 import SystemModule from "@/components/modules/system-module";
+import PortalModule from "@/components/modules/portal-module";
 
 export default function DashboardPage() {
   const { activeUser, activeView } = useERP();
@@ -67,6 +68,8 @@ export default function DashboardPage() {
     case "Hostel":
     case "Transport":
       return <ServicesModule />;
+    case "Public Portal":
+      return <PortalModule />;
     case "Settings":
     case "Documents":
       return <SystemModule />;
