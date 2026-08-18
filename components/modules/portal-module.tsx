@@ -23,7 +23,8 @@ import {
   Send,
   Sparkles,
   Info,
-  Calendar
+  Calendar,
+  Image as ImageIcon
 } from "lucide-react";
 
 export default function PortalModule() {
@@ -33,14 +34,18 @@ export default function PortalModule() {
   const [activeMenu, setActiveMenu] = useState("About Us");
   const [activeSubItem, setActiveSubItem] = useState("Our Mission");
 
-  // Portal Editor contents
-  const [missionText, setMissionText] = useState("To deliver world-class experiential learning and research excellence.");
-  const [visionText, setVisionText] = useState("To be a premier global center for technological and management advancement.");
+  // Portal Editor contents with real Excel Group of Institutions data
+  const [missionText, setMissionText] = useState(
+    "To provide value-based technical education and research opportunities that produce competent engineers and leaders with strong ethical foundations."
+  );
+  const [visionText, setVisionText] = useState(
+    "To be a premier global center for technological advancement, fostering innovation and multi-disciplinary academic excellence."
+  );
   
   // Send Enquiry Form states
   const [enquiryName, setEnquiryName] = useState("");
   const [enquiryEmail, setEnquiryEmail] = useState("");
-  const [enquiryProgram, setEnquiryProgram] = useState("B.Tech");
+  const [enquiryProgram, setEnquiryProgram] = useState("B.Tech CSE");
   const [enquiryText, setEnquiryText] = useState("");
 
   const handleSendEnquiry = (e: React.FormEvent) => {
@@ -52,7 +57,7 @@ export default function PortalModule() {
       id: `L-${Date.now()}`,
       name: enquiryName,
       email: enquiryEmail,
-      phone: "+91 99002 11029",
+      phone: "+91 99655 23999",
       date: "19 Aug 2026",
       program: enquiryProgram,
       stage: "Verification" as const,
@@ -76,44 +81,79 @@ export default function PortalModule() {
       id: "About Us",
       label: "About Us",
       icon: Info,
-      items: ["Our Mission", "Our Vision", "Our Values", "Why Choose Us", "Achievements", "Milestones", "Gallery"]
+      items: ["Our Mission", "Our Vision", "Our Values", "Achievements", "Gallery"]
     },
     {
       id: "Branches",
       label: "Branches",
       icon: Building2,
-      items: ["Branch Locations", "Branch Directory", "Infrastructure", "Facilities", "Branch Events", "Reach Us"]
+      items: ["Branch Locations", "Infrastructure", "Facilities", "Reach Us"]
     },
     {
       id: "Courses",
       label: "Courses",
       icon: BookOpen,
-      items: ["All Courses", "Undergraduate", "Postgraduate", "Professional Courses", "Course Structure", "Course Fee"]
+      items: ["All Courses", "Undergraduate", "Postgraduate", "Course Fee"]
     },
     {
       id: "Admissions",
       label: "Admissions",
       icon: Compass,
-      items: ["Admission Process", "Eligibility Criteria", "Apply Online", "Important Dates", "Documents Required", "Fee Structure"]
+      items: ["Admission Process", "Eligibility Criteria", "Apply Online", "Important Dates"]
     },
     {
       id: "Resources",
       label: "Resources",
       icon: HelpCircle,
-      items: ["Study Materials", "E-Library", "Downloads", "Notice Board", "Academic Calendar", "Forms & Templates"]
+      items: ["Study Materials", "Notice Board", "Academic Calendar"]
     },
     {
       id: "Our Team",
       label: "Our Team",
       icon: Users,
-      items: ["Faculty Directory", "Department Heads", "Visiting Faculty", "Admin Staff", "Support Staff", "Library Staff"]
+      items: ["Faculty Directory", "Department Heads"]
     },
     {
       id: "Contact Us",
       label: "Contact Us",
       icon: Mail,
-      items: ["Contact Information", "Send Enquiry", "Feedback", "Support", "FAQs", "Live Chat"]
+      items: ["Contact Information", "Send Enquiry", "FAQs"]
     }
+  ];
+
+  // Real institutional branch data (Excel Group)
+  const realBranches = [
+    {
+      name: "Excel Engineering College (Autonomous)",
+      desc: "Premier engineering center with state-of-the-art computational labs and aeronautical research blocks.",
+      location: "NH-544, Pallakkapalayam, Komarapalayam, Tamil Nadu 637303",
+      image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80",
+      phone: "+91 99655 23999"
+    },
+    {
+      name: "Excel College for Commerce & Science",
+      desc: "Focusing on corporate administration, accounting sciences, physics, and biotechnology courses.",
+      location: "NH-544, Pallakkapalayam, Komarapalayam, Tamil Nadu 637303",
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80",
+      phone: "+91 99655 33370"
+    },
+    {
+      name: "Excel College of Architecture & Planning",
+      desc: "Nurturing professional design, urban planning, spatial grids, and structural design disciplines.",
+      location: "NH-544, Pallakkapalayam, Komarapalayam, Tamil Nadu 637303",
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+      phone: "+91 99655 33370"
+    }
+  ];
+
+  // Real course list (Excel Group)
+  const realCourses = [
+    { name: "B.Tech Computer Science & Engineering", type: "Undergraduate", duration: "4 Years", fee: "₹1,80,000 / Year" },
+    { name: "B.Tech Artificial Intelligence & Data Science", type: "Undergraduate", duration: "4 Years", fee: "₹1,80,000 / Year" },
+    { name: "B.E. Aeronautical Engineering", type: "Undergraduate", duration: "4 Years", fee: "₹2,00,000 / Year" },
+    { name: "Master of Business Administration (MBA)", type: "Postgraduate", duration: "2 Years", fee: "₹2,20,000 / Year" },
+    { name: "B.Arch Architecture", type: "Undergraduate", duration: "5 Years", fee: "₹1,90,000 / Year" },
+    { name: "B.Sc Biotechnology", type: "Undergraduate", duration: "3 Years", fee: "₹95,000 / Year" }
   ];
 
   return (
@@ -141,7 +181,7 @@ export default function PortalModule() {
             </div>
           </div>
           <Badge variant="outline" className="border-primary-blue/30 text-primary-blue-light font-bold text-[9px] mt-2 md:mt-0">
-            Interactive Mockup
+            Excel Group of Institutions
           </Badge>
         </div>
 
@@ -211,7 +251,7 @@ export default function PortalModule() {
             <div className="min-h-[220px] bg-slate-50/50 rounded-xl border border-slate-100 p-6 flex flex-col justify-center">
               
               {/* About Us -> Mission & Vision */}
-              {activeMenu === "About Us" && (
+              {activeMenu === "About Us" && activeSubItem !== "Gallery" && (
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Institutional Mission Editor</span>
@@ -239,43 +279,82 @@ export default function PortalModule() {
                 </div>
               )}
 
+              {/* About Us -> Gallery */}
+              {activeMenu === "About Us" && activeSubItem === "Gallery" && (
+                <div className="space-y-4">
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Institutional Gallery (Unsplash Live)</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="rounded-lg overflow-hidden border border-border-base relative h-36 shadow-soft group">
+                      <img 
+                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=400&q=80" 
+                        alt="Campus Main"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">
+                        Main Quad
+                      </span>
+                    </div>
+                    <div className="rounded-lg overflow-hidden border border-border-base relative h-36 shadow-soft group">
+                      <img 
+                        src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80" 
+                        alt="Aviation Wing"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">
+                        Graduation Hall
+                      </span>
+                    </div>
+                    <div className="rounded-lg overflow-hidden border border-border-base relative h-36 shadow-soft group">
+                      <img 
+                        src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=400&q=80" 
+                        alt="Central Library"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">
+                        Central Library
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Branches -> Branch locations */}
               {activeMenu === "Branches" && (
                 <div className="space-y-4 text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-3 bg-white rounded-lg border border-border-base shadow-soft space-y-1">
-                      <span className="font-bold text-text-primary block">Bengaluru Campus (HQ)</span>
-                      <p className="text-text-secondary text-[11px]">Excel Group Tech Park, Electronic City Phase 1</p>
-                      <span className="text-[10px] text-text-muted block">Direct line: +91 80 4930219</span>
-                    </div>
-                    <div className="p-3 bg-white rounded-lg border border-border-base shadow-soft space-y-1">
-                      <span className="font-bold text-text-primary block">Pune Campus</span>
-                      <p className="text-text-secondary text-[11px]">Hinjewadi IT Phase 3, Pune Expressway</p>
-                      <span className="text-[10px] text-text-muted block">Direct line: +91 20 8820493</span>
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {realBranches.map((branch, idx) => (
+                      <div key={idx} className="bg-white rounded-lg border border-border-base shadow-soft overflow-hidden flex flex-col">
+                        <div className="h-28 w-full overflow-hidden relative">
+                          <img src={branch.image} alt={branch.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
+                          <div>
+                            <span className="font-bold text-text-primary block text-[11px] leading-tight">{branch.name}</span>
+                            <p className="text-text-muted text-[10px] mt-1 leading-snug">{branch.desc}</p>
+                          </div>
+                          <div className="text-[9px] text-text-secondary border-t border-slate-100 pt-2 space-y-0.5">
+                            <span className="block truncate font-semibold"><MapPin className="h-2.5 w-2.5 inline mr-1" />{branch.location}</span>
+                            <span className="block font-semibold"><Phone className="h-2.5 w-2.5 inline mr-1" />{branch.phone}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <Button variant="outline" size="sm" className="w-full font-bold">
-                    Add New Branch Location
-                  </Button>
                 </div>
               )}
 
               {/* Courses -> list */}
               {activeMenu === "Courses" && (
                 <div className="space-y-4 text-xs">
-                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Current Course Registries</span>
-                  <div className="space-y-2">
-                    {[
-                      { name: "B.Tech Computer Science & Eng.", type: "Undergraduate", fee: "₹1,80,000 / Year" },
-                      { name: "Master of Business Administration", type: "Postgraduate", fee: "₹2,20,000 / Year" },
-                      { name: "B.Sc Artificial Intelligence & Data", type: "Undergraduate", fee: "₹1,50,000 / Year" }
-                    ].map((course, idx) => (
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Real-time Course Directory (Komarapalayam Campus)</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {realCourses.map((course, idx) => (
                       <div key={idx} className="flex justify-between items-center p-3 bg-white rounded-lg border border-border-base shadow-soft">
-                        <div>
-                          <span className="font-bold text-text-primary block">{course.name}</span>
-                          <span className="text-[9px] text-text-muted">{course.type}</span>
+                        <div className="space-y-0.5">
+                          <span className="font-bold text-text-primary block leading-tight">{course.name}</span>
+                          <span className="text-[9px] text-text-muted">{course.type} • {course.duration}</span>
                         </div>
-                        <Badge variant="outline" className="font-bold text-text-primary bg-slate-50">{course.fee}</Badge>
+                        <Badge variant="outline" className="font-bold text-text-primary bg-slate-50 flex-shrink-0 ml-2">{course.fee}</Badge>
                       </div>
                     ))}
                   </div>
@@ -285,27 +364,27 @@ export default function PortalModule() {
               {/* Admissions process */}
               {activeMenu === "Admissions" && (
                 <div className="space-y-4 text-xs text-text-secondary">
-                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Step-by-step application process map</span>
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Komarapalayam Campus Admission Steps</span>
                   <div className="space-y-3">
                     <div className="flex items-start space-x-2">
                       <Badge variant="academic" className="rounded-full h-5 w-5 flex items-center justify-center p-0 flex-shrink-0">1</Badge>
                       <div>
-                        <span className="font-bold text-text-primary block text-xs">Online registration</span>
-                        <p className="text-[10px] text-text-muted">Fill out the basic details on the apply online form.</p>
+                        <span className="font-bold text-text-primary block text-xs">Verify Eligibility & Cutoffs</span>
+                        <p className="text-[10px] text-text-muted">AIEEE, TNEA ranking scores or trust scholarship limits review.</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-2">
                       <Badge variant="academic" className="rounded-full h-5 w-5 flex items-center justify-center p-0 flex-shrink-0">2</Badge>
                       <div>
-                        <span className="font-bold text-text-primary block text-xs">Document Verification</span>
-                        <p className="text-[10px] text-text-muted">Submit your academic transcripts and identity documentation.</p>
+                        <span className="font-bold text-text-primary block text-xs">Document Checks</span>
+                        <p className="text-[10px] text-text-muted">Submit verified 10+2 mark sheets, transfer certificates, and community quotas.</p>
                       </div>
                     </div>
                     <div className="flex items-start space-x-2">
                       <Badge variant="academic" className="rounded-full h-5 w-5 flex items-center justify-center p-0 flex-shrink-0">3</Badge>
                       <div>
-                        <span className="font-bold text-text-primary block text-xs">Provisional Admission</span>
-                        <p className="text-[10px] text-text-muted">Clear fee payment invoice values to complete university registry onboarding.</p>
+                        <span className="font-bold text-text-primary block text-xs">Fees payment & Onboarding</span>
+                        <p className="text-[10px] text-text-muted">Settle the semester enrollment dues invoice to lock in your candidate registry ID.</p>
                       </div>
                     </div>
                   </div>
@@ -315,20 +394,20 @@ export default function PortalModule() {
               {/* Resources */}
               {activeMenu === "Resources" && (
                 <div className="space-y-3 text-xs">
-                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Notice Board & Announcements</span>
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Public Notice Board & Circulars</span>
                   <div className="p-3 bg-white rounded-lg border border-border-base shadow-soft flex items-center justify-between">
                     <div>
-                      <span className="font-bold text-text-primary block">Term 2 Exam schedule released</span>
+                      <span className="font-bold text-text-primary block leading-tight">TNEA Engineering Seat Allocation Circular</span>
                       <span className="text-[9px] text-text-muted">Dated: 18 Aug 2026</span>
                     </div>
                     <Button variant="outline" size="sm">Download PDF</Button>
                   </div>
                   <div className="p-3 bg-white rounded-lg border border-border-base shadow-soft flex items-center justify-between">
                     <div>
-                      <span className="font-bold text-text-primary block">Independence Day holiday declaration</span>
-                      <span className="text-[9px] text-text-muted">Dated: 14 Aug 2026</span>
+                      <span className="font-bold text-text-primary block leading-tight">Hostel Admissions list (Boys/Girls) - Block C</span>
+                      <span className="text-[9px] text-text-muted">Dated: 16 Aug 2026</span>
                     </div>
-                    <Badge variant="outline" className="text-text-muted">Cleared</Badge>
+                    <Button variant="outline" size="sm">Download PDF</Button>
                   </div>
                 </div>
               )}
@@ -342,7 +421,7 @@ export default function PortalModule() {
                       <div className="h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center font-bold text-[10px]">SI</div>
                       <div>
                         <span className="font-semibold text-text-primary block">Prof. Suresh Iyer</span>
-                        <span className="text-[9px] text-text-muted">CS Head of Department</span>
+                        <span className="text-[9px] text-text-muted">CS Head of Department (Autonomous EC)</span>
                       </div>
                     </div>
                     <div className="p-3 bg-white rounded-lg border border-border-base shadow-soft flex items-center space-x-2.5">
@@ -357,7 +436,28 @@ export default function PortalModule() {
               )}
 
               {/* Contact Us - Enquiry Form */}
-              {activeMenu === "Contact Us" && (
+              {activeMenu === "Contact Us" && activeSubItem !== "Send Enquiry" && (
+                <div className="space-y-4 text-xs">
+                  <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">Contact Information Registry</span>
+                  <div className="p-4 bg-white rounded-lg border border-border-base shadow-soft space-y-3">
+                    <div className="flex items-center space-x-3 text-text-secondary">
+                      <MapPin className="h-4 w-4 text-primary-blue flex-shrink-0" />
+                      <span>NH-544, Pallakkapalayam, Komarapalayam, Tamil Nadu 637303</span>
+                    </div>
+                    <div className="flex items-center space-x-3 text-text-secondary">
+                      <Phone className="h-4 w-4 text-success flex-shrink-0" />
+                      <span>+91 99655 23999, +91 99655 33370</span>
+                    </div>
+                    <div className="flex items-center space-x-3 text-text-secondary">
+                      <Mail className="h-4 w-4 text-warning flex-shrink-0" />
+                      <span>info@excelcolleges.com</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Contact Us - Send Enquiry Form */}
+              {activeMenu === "Contact Us" && activeSubItem === "Send Enquiry" && (
                 <form onSubmit={handleSendEnquiry} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Input
@@ -382,9 +482,10 @@ export default function PortalModule() {
                       value={enquiryProgram}
                       onChange={(e) => setEnquiryProgram(e.target.value)}
                     >
-                      <option value="B.Tech">B.Tech (Computer Science)</option>
-                      <option value="M.Tech">M.Tech (Data Analytics)</option>
-                      <option value="BBA">BBA (Marketing)</option>
+                      <option value="B.Tech CSE">B.Tech (Computer Science)</option>
+                      <option value="B.Tech AI & DS">B.Tech (Artificial Intelligence)</option>
+                      <option value="MBA Finance">MBA (Finance)</option>
+                      <option value="B.Arch">B.Arch (Architecture)</option>
                     </Select>
                     <Input
                       label="Question / Details"
