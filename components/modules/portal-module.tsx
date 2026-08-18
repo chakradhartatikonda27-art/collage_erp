@@ -134,7 +134,7 @@ export default function PortalModule() {
       name: "Excel College for Commerce & Science",
       desc: "Focusing on corporate administration, accounting sciences, physics, and biotechnology courses.",
       location: "NH-544, Pallakkapalayam, Komarapalayam, Tamil Nadu 637303",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
       phone: "+91 99655 33370"
     },
     {
@@ -296,7 +296,7 @@ export default function PortalModule() {
                     </div>
                     <div className="rounded-lg overflow-hidden border border-border-base relative h-36 shadow-soft group">
                       <img 
-                        src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80" 
+                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80" 
                         alt="Aviation Wing"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
