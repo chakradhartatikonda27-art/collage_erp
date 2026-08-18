@@ -201,7 +201,7 @@ export default function PublicLandingPage() {
           {/* Left Text Pitch */}
           <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center space-x-2 bg-primary-blue/10 px-3.5 py-1.5 rounded-full border border-primary-blue/20 text-xs font-bold text-blue-400">
-              <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+              <Building2 className="h-3.5 w-3.5 text-blue-400" />
               <span>Sri Rengaswamy Educational Trust (SRET)</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
@@ -219,7 +219,7 @@ export default function PublicLandingPage() {
                 </Button>
               </a>
               <Link href="/login" className="w-full sm:w-auto">
-                <Button variant="outline" className="w-full sm:w-auto font-bold border-slate-800 text-slate-350 hover:text-white hover:bg-slate-900/60 px-6 py-5 text-sm">
+                <Button variant="ghost" className="w-full sm:w-auto font-bold border border-slate-800 hover:border-slate-750 bg-transparent hover:bg-slate-900/60 text-slate-300 hover:text-white px-6 py-5 text-sm">
                   Staff & Student Login
                 </Button>
               </Link>

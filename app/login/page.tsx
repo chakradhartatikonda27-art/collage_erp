@@ -7,7 +7,7 @@ import { mockUsers, UserProfile } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { GraduationCap, Sparkles, Lock, Mail, ChevronRight } from "lucide-react";
+import { GraduationCap, Building2, Lock, Mail, ChevronRight } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -57,7 +57,7 @@ export default function LoginPage() {
         {/* Branding pitch */}
         <div className="space-y-6 z-10 max-w-lg my-12 lg:my-0">
           <div className="inline-flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full border border-white/10 text-xs font-bold text-blue-200">
-            <Sparkles className="h-3.5 w-3.5" />
+            <Building2 className="h-3.5 w-3.5" />
             <span>Commercial-Grade ERP SaaS</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
