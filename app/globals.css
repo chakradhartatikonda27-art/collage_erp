@@ -86,3 +86,51 @@ body {
 .focus-ring:focus-visible {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #2563eb;
 }
+
+/* GPU-Accelerated 3D Transform Utilities */
+.perspective-container {
+  perspective: 1200px;
+}
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
+}
+.tilt-card:hover {
+  transform: rotateY(-8deg) rotateX(6deg) translateZ(20px);
+  box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.15);
+}
+
+.float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+.float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+.glow-glow {
+  position: relative;
+}
+.glow-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #2563eb);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.15;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+.glow-glow:hover::before {
+  opacity: 0.35;
+}
