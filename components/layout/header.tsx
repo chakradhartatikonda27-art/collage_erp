@@ -22,6 +22,7 @@ export default function Header() {
   const { 
     activeUser, 
     setActiveUser, 
+    setActiveView,
     selectedCampus, 
     setSelectedCampus,
     unreadNotificationsCount,
@@ -61,6 +62,7 @@ export default function Header() {
 
   const handleRoleSwitch = (user: UserProfile) => {
     setActiveUser(user);
+    setActiveView("Dashboard");
     setRoleMenuOpen(false);
   };
 
@@ -168,9 +170,14 @@ export default function Header() {
                     <div className="h-6 w-6 rounded-full bg-primary-navy/10 text-primary-navy flex items-center justify-center font-bold text-[10px] flex-shrink-0">
                       {user.avatar}
                     </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-text-primary font-medium truncate">{user.name}</span>
-                      <span className="text-[9px] text-text-muted truncate">{user.roleTitle}</span>
+                    <div className="flex-1 flex flex-col min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-text-primary font-bold truncate">{user.name}</span>
+                        <span className="text-[9px] font-extrabold text-primary-blue bg-primary-blue-light/50 px-1.5 py-0.5 rounded uppercase flex-shrink-0 ml-1">
+                          {user.role === "super_admin" ? "Super Admin" : user.role === "inst_admin" ? "Admin" : user.role}
+                        </span>
+                      </div>
+                      <span className="text-[9px] text-text-muted truncate mt-0.5">{user.roleTitle}</span>
                     </div>
                   </button>
                 ))}
