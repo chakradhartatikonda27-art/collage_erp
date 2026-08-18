@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useERP, StudentRecord } from "@/context/erp-context";
+import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -100,7 +101,8 @@ export default function StudentsModule() {
       {/* Students Data Table */}
       <Card>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-xs text-left border-collapse">
               <thead className="bg-slate-50 border-b border-border-base text-text-secondary font-bold uppercase tracking-wider select-none">
                 <tr>
@@ -181,6 +183,70 @@ export default function StudentsModule() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Cards List View */}
+          <div className="md:hidden divide-y divide-border-base">
+            {filteredStudents.length === 0 ? (
+              <div className="p-8 text-center text-text-muted text-xs">
+                No students matching the criteria were found.
+              </div>
+            ) : (
+              filteredStudents.map((stud) => (
+                <div
+                  key={stud.id}
+                  onClick={() => handleOpenProfile(stud)}
+                  className="p-4 active:bg-slate-50 transition-colors flex items-center justify-between cursor-pointer space-x-3"
+                >
+                  <div className="flex items-center space-x-3 min-w-0">
+                    <div className="h-9 w-9 rounded-full bg-primary-blue-light text-primary-blue flex items-center justify-center font-bold text-xs flex-shrink-0">
+                      {stud.name.split(" ").map(n => n[0]).join("")}
+                    </div>
+                    <div className="min-w-0 space-y-1">
+                      <span className="text-xs font-bold text-text-primary block truncate">
+                        {stud.name}
+                      </span>
+                      <span className="text-[10px] text-text-muted block">
+                        {stud.rollNo} • {stud.program}
+                      </span>
+                      {/* Attendance indicator */}
+                      <div className="flex items-center space-x-1.5 pt-1">
+                        <div className="h-1 w-16 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full ${stud.attendance >= 75 ? "bg-success" : "bg-danger"}`}
+                            style={{ width: `${stud.attendance}%` }}
+                          />
+                        </div>
+                        <span className={cn(
+                          "text-[9px] font-bold",
+                          stud.attendance >= 75 ? "text-success" : "text-danger"
+                        )}>
+                          {stud.attendance}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-end space-y-1.5 flex-shrink-0 text-right">
+                    <Badge 
+                      variant={
+                        stud.status === "Active" 
+                          ? "success" 
+                          : stud.status === "On Leave" 
+                          ? "warning" 
+                          : "danger"
+                      }
+                      className="text-[9px]"
+                    >
+                      {stud.status}
+                    </Badge>
+                    <span className="text-[10px] font-extrabold text-text-primary bg-slate-100 px-2 py-0.5 rounded-md">
+                      {stud.cgpa} CGPA
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </CardContent>
       </Card>

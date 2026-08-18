@@ -154,7 +154,8 @@ export default function FinanceModule() {
       {/* Invoice Table */}
       <Card>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-xs text-left border-collapse">
               <thead className="bg-slate-50 border-b border-border-base text-text-secondary font-bold uppercase tracking-wider select-none">
                 <tr>
@@ -217,6 +218,63 @@ export default function FinanceModule() {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Cards List View */}
+          <div className="md:hidden divide-y divide-border-base">
+            {filteredInvoices.length === 0 ? (
+              <div className="p-8 text-center text-text-muted text-xs">
+                No invoices found.
+              </div>
+            ) : (
+              filteredInvoices.map((inv) => (
+                <div
+                  key={inv.id}
+                  className="p-4 flex items-center justify-between space-x-3 text-xs"
+                >
+                  <div className="space-y-1 min-w-0">
+                    <span className="font-bold text-text-primary block truncate">
+                      {inv.invoiceNo}
+                    </span>
+                    <span className="text-[10px] text-text-muted block">
+                      Student: {inv.student} • Issued: {inv.date}
+                    </span>
+                    <div className="flex items-center space-x-2 pt-1">
+                      <span className="text-text-muted">Total: {formatIndianCurrency(inv.amount)}</span>
+                      <span className="text-success font-semibold">Paid: {formatIndianCurrency(inv.paid)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end space-y-1.5 flex-shrink-0 text-right">
+                    <Badge 
+                      variant={
+                        inv.status === "Paid" 
+                          ? "success" 
+                          : inv.status === "Pending" 
+                          ? "warning" 
+                          : "danger"
+                      }
+                      className="text-[9px]"
+                    >
+                      {inv.status}
+                    </Badge>
+                    
+                    {inv.status !== "Paid" ? (
+                      <Button 
+                        variant="primary" 
+                        size="sm" 
+                        onClick={() => handleOpenPay(inv)}
+                        className="h-7 px-2.5 text-[10px]"
+                      >
+                        Collect
+                      </Button>
+                    ) : (
+                      <span className="text-[10px] text-success font-bold">Cleared</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </CardContent>
       </Card>
