@@ -6,6 +6,7 @@ import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 import BottomNav from "@/components/layout/bottom-nav";
 import GlobalSearch from "@/components/layout/global-search";
+import AiCopilot from "@/components/dashboard/ai-copilot";
 import { Drawer } from "@/components/ui/drawer";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,6 +176,9 @@ export default function DashboardLayout({
 
       {/* 4. Global Search Modal (Command Palette) */}
       <GlobalSearch />
+
+      {/* EduCare AI Copilot Assistant */}
+      <AiCopilot />
 
       {/* 5. Notification Panel Drawer (Interactive slide out) */}
       <Drawer

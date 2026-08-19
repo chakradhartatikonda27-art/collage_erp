@@ -56,6 +56,22 @@
   --shadow-premium: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
 }
 
+.dark {
+  --background: #090d16;
+  --foreground: #f8fafc;
+
+  --color-background-base: #090d16;
+  --color-surface-base: #111827;
+  --color-surface-hover: #1f2937;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #64748b;
+
+  --color-border-base: #1f2937;
+  --color-border-focus: #374151;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);

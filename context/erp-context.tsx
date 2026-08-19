@@ -95,6 +95,8 @@ interface ERPContextType {
   setPendingApprovalsCount: React.Dispatch<React.SetStateAction<number>>;
   currentBreadcrumbs: { label: string; href?: string }[];
   setBreadcrumbs: (breadcrumbs: { label: string; href?: string }[]) => void;
+  darkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 const ERPContext = createContext<ERPContextType | undefined>(undefined);
@@ -110,6 +112,32 @@ export function ERPProvider({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const newVal = !prev;
+      if (newVal) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+      return newVal;
+    });
+  };
 
   // Initialize interactive datasets
   const [students, setStudents] = useState<StudentRecord[]>([
@@ -253,7 +281,9 @@ export function ERPProvider({ children }: { children: React.ReactNode }) {
         pendingApprovalsCount,
         setPendingApprovalsCount,
         currentBreadcrumbs,
-        setBreadcrumbs
+        setBreadcrumbs,
+        darkMode,
+        toggleDarkMode
       }}
     >
       {children}
