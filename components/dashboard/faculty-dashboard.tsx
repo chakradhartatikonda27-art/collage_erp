@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import { useERP } from "@/context/erp-context";
-import { mockFacultyCourses, mockSchedules, mockAnnouncements } from "@/lib/mock-data";
-import { KPICard } from "./widgets/kpi-card";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { mockFacultyCourses, mockSchedules } from "@/lib/mock-data";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Drawer } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
@@ -14,11 +13,14 @@ import {
   BookOpen, 
   CheckSquare, 
   Clock, 
-  ChevronRight,
-  Sparkles,
+  ChevronRight, 
   ArrowRight,
   TrendingUp,
-  Award
+  Award,
+  GraduationCap,
+  Percent,
+  User,
+  ClipboardList
 } from "lucide-react";
 
 export default function FacultyDashboard() {
@@ -35,6 +37,10 @@ export default function FacultyDashboard() {
   const [selectedTask, setSelectedTask] = useState<typeof tasks[0] | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [gradeScore, setGradeScore] = useState("");
+
+  const handleActionClick = (actionName: string) => {
+    addToast(`Triggered: ${actionName}`, "info");
+  };
 
   const handleOpenTask = (task: typeof tasks[0]) => {
     setSelectedTask(task);
@@ -58,200 +64,265 @@ export default function FacultyDashboard() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-        <div>
-          <h1 className="text-xl md:text-2xl font-extrabold text-text-primary tracking-tight">
-            Faculty Academic Portal
-          </h1>
-          <p className="text-xs md:text-sm text-text-secondary mt-1">
-            Welcome back, {activeUser.name} • {activeUser.roleTitle} — {activeUser.department} Department
-          </p>
+    <div className="space-y-6 max-w-7xl mx-auto px-1 animate-in fade-in duration-300">
+      
+      {/* 1. Header Banner Card */}
+      <Card className="border-slate-100 shadow-sm bg-white overflow-hidden">
+        <CardContent className="p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center space-x-4">
+            <div className="h-14 w-14 rounded-full bg-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+              <GraduationCap className="h-8 w-8 text-white" />
+            </div>
+            <div className="text-left">
+              <h2 className="text-lg font-black text-slate-900 leading-snug">
+                Good Morning, {activeUser.name}! 👋
+              </h2>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                {activeUser.roleTitle || "Faculty"} | {activeUser.department || "Business School"} Department
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-600 font-black py-1.5 px-3.5">
+              Active Semester
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 2. Color-Coded Stats Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {/* Classes Today */}
+        <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-blue-100/80 flex items-center justify-center text-blue-600">
+            <Calendar className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">3</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Classes Today</span>
+          </div>
+          <button 
+            onClick={() => handleActionClick("My Schedule")}
+            className="text-[10px] font-black text-blue-600 hover:underline cursor-pointer"
+          >
+            View Schedule
+          </button>
         </div>
-        <div className="flex items-center space-x-2">
-          <Badge variant="success" className="py-1 px-3">
-            Active Semester
-          </Badge>
+
+        {/* Total Students */}
+        <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-emerald-100/80 flex items-center justify-center text-emerald-600">
+            <User className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">128</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Total Students</span>
+          </div>
+          <span className="text-[9px] text-emerald-500 font-bold">4 active courses</span>
+        </div>
+
+        {/* Assignments */}
+        <div className="bg-orange-50/50 border border-orange-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-orange-100/80 flex items-center justify-center text-orange-600">
+            <ClipboardList className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">12</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">To Grade</span>
+          </div>
+          <span className="text-[9px] text-orange-500 font-bold">2 overdue batches</span>
+        </div>
+
+        {/* Attendance Rate */}
+        <div className="bg-purple-50/50 border border-purple-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-purple-100/80 flex items-center justify-center text-purple-600">
+            <Percent className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">92%</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Attendance</span>
+          </div>
+          <span className="text-[9px] text-purple-500 font-bold">Class average</span>
+        </div>
+
+        {/* Active Courses */}
+        <div className="col-span-2 md:col-span-1 bg-rose-50/50 border border-rose-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-rose-100/80 flex items-center justify-center text-rose-600">
+            <BookOpen className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">4</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Active Courses</span>
+          </div>
+          <span className="text-[9px] text-rose-500 font-bold">BBA Curriculum</span>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <KPICard title="My Classes Today" value="3" change="View schedule timeline" isPositive={true} type="info" />
-        <KPICard title="Total Students" value="128" change="Across 4 active courses" isPositive={true} type="academic" />
-        <KPICard title="Assignments to Grade" value="12" change="2 overdue batches" isPositive={false} type="warning" />
-        <KPICard title="Attendance Rate" value="92%" change="Class average this month" isPositive={true} type="success" />
-        <KPICard title="My Active Courses" value="4" change="BBA curriculum" isPositive={true} type="academic" />
-      </div>
+      {/* 3. Symmetrical Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Left Column: Lecture Schedule + Progress */}
+        <div className="space-y-6">
+          
+          {/* Lecture Schedule */}
+          <Card className="border-slate-100 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+                <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Today&apos;s Lecture Schedule</h3>
+                <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-600 font-bold">18 Aug 2026</Badge>
+              </div>
 
-      {/* Schedule and Tasks */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Schedule */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center space-x-2">
-              <Calendar className="h-4.5 w-4.5 text-primary-blue" />
-              <span>Today&apos;s Lecture Schedule</span>
-            </CardTitle>
-            <Badge variant="outline">18 Aug 2026</Badge>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-border-base">
-              {mockSchedules.faculty.map((item, idx) => (
-                <div key={idx} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
-                  <div className="flex items-start space-x-4">
-                    <div className="h-10 w-10 rounded-lg bg-slate-100 flex flex-col items-center justify-center flex-shrink-0">
-                      <Clock className="h-4 w-4 text-text-secondary" />
+              <div className="space-y-4">
+                {mockSchedules.faculty.map((item, idx) => (
+                  <div key={idx} className="flex items-center justify-between p-3.5 bg-slate-50/50 border border-slate-100 rounded-xl">
+                    <div className="flex items-center space-x-4">
+                      <div className="text-slate-500 flex flex-col items-center flex-shrink-0 w-20">
+                        <span className="text-[11px] font-black text-slate-800 leading-none">{item.time.split(" ")[0]}</span>
+                        <span className="text-[9px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">{item.time.split(" ").slice(1).join(" ")}</span>
+                      </div>
+                      <div className="h-7 w-px bg-slate-200" />
+                      <div className="text-left">
+                        <span className="text-xs font-extrabold text-slate-800 block truncate">{item.course}</span>
+                        <span className="text-[10px] text-slate-455 font-semibold block mt-0.5">{item.details}</span>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm font-semibold text-text-primary">
-                        {item.course}
-                      </h4>
-                      <p className="text-xs text-text-muted mt-0.5">
-                        {item.time}
-                      </p>
-                      <span className="text-[11px] text-text-secondary font-medium block mt-1">
-                        {item.details}
-                      </span>
+                    <Badge variant={item.status === "Completed" ? "success" : "info"} className="text-[8px] font-black uppercase flex-shrink-0">
+                      {item.status}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Syllabus Progress */}
+          <Card className="border-slate-100 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+                <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Syllabus Progress</h3>
+              </div>
+
+              <div className="space-y-4">
+                {mockFacultyCourses.map((course) => (
+                  <div key={course.id} className="space-y-2">
+                    <div className="flex justify-between items-start text-xs text-left">
+                      <div>
+                        <span className="font-extrabold text-slate-800 block">{course.name}</span>
+                        <span className="text-[10px] text-slate-455 font-semibold block mt-0.5">
+                          Strength: {course.studentsCount} Students • Next: {course.nextClass}
+                        </span>
+                      </div>
+                      <span className="font-black text-blue-600">{course.progress}% Complete</span>
+                    </div>
+                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-600 rounded-full" style={{ width: `${course.progress}%` }} />
                     </div>
                   </div>
-                  <Badge variant={item.status === "Completed" ? "success" : "info"}>
-                    {item.status}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Actionable Pending Tasks */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <CheckSquare className="h-4.5 w-4.5 text-warning" />
-              <span>Action Items ({tasks.length})</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 space-y-3">
-            {tasks.length === 0 ? (
-              <div className="p-8 text-center text-text-muted flex flex-col items-center justify-center">
-                <Sparkles className="h-8 w-8 text-success mb-2 animate-bounce" />
-                <span className="text-xs font-semibold">Perfect! No pending action items.</span>
+                ))}
               </div>
-            ) : (
-              tasks.map((task) => (
-                <button
-                  key={task.id}
-                  onClick={() => handleOpenTask(task)}
-                  className="w-full flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-100 transition-colors group cursor-pointer focus-ring text-left"
-                >
-                  <div className="space-y-0.5 min-w-0">
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block">
-                      {task.category}
-                    </span>
-                    <span className="text-xs font-bold text-text-primary block truncate">
-                      {task.title}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-1.5 flex-shrink-0">
-                    <span className="h-5 w-5 bg-warning-light text-warning text-[10px] font-bold rounded-full flex items-center justify-center border border-warning/10">
-                      {task.count}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-text-muted group-hover:text-text-primary transition-colors" />
-                  </div>
-                </button>
-              ))
-            )}
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
 
-      {/* Courses and Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Courses enrolled / Syllabus Progress */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>My Courses & Syllabus Progress</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6 space-y-5">
-            {mockFacultyCourses.map((course) => (
-              <div key={course.id} className="space-y-2">
-                <div className="flex justify-between items-start text-xs">
-                  <div>
-                    <span className="font-bold text-text-primary block">{course.name}</span>
-                    <span className="text-[10px] text-text-muted block mt-0.5">
-                      Batch Strength: {course.studentsCount} Students • Next: {course.nextClass}
-                    </span>
-                  </div>
-                  <span className="font-bold text-primary-blue">{course.progress}% Complete</span>
-                </div>
-                {/* Progress bar */}
-                <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary-blue rounded-full transition-all duration-500" 
-                    style={{ width: `${course.progress}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        </div>
 
-        {/* Visual attendance rating circle */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Class Attendance Average</CardTitle>
-          </CardHeader>
-          <CardContent className="p-6 flex flex-col items-center justify-center">
-            {/* SVG circle */}
-            <div className="relative h-28 w-28 flex items-center justify-center">
-              <svg className="h-full w-full transform -rotate-90" viewBox="0 0 36 36">
-                <path
-                  className="text-slate-100"
-                  strokeWidth="3.5"
-                  stroke="currentColor"
-                  fill="transparent"
-                  d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-                <path
-                  className="text-success"
-                  strokeWidth="3.5"
-                  strokeDasharray="92, 100"
-                  strokeLinecap="round"
-                  stroke="currentColor"
-                  fill="transparent"
-                  d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                />
-              </svg>
-              <div className="absolute flex flex-col items-center justify-center">
-                <span className="text-xl font-black text-text-primary leading-none">92%</span>
-                <span className="text-[9px] text-text-muted font-bold tracking-wider mt-0.5">PRESENT</span>
-              </div>
-            </div>
-
-            <div className="mt-5 space-y-2 text-xs w-full text-text-secondary">
-              <div className="flex justify-between items-center pb-2 border-b border-border-base/50">
-                <span className="flex items-center">
-                  <span className="h-2 w-2 rounded-full bg-success mr-2" />
-                  Present average
+        {/* Right Column: Action Items + Class Attendance Avg */}
+        <div className="space-y-6">
+          
+          {/* Action Items */}
+          <Card className="border-slate-100 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+                <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Pending Tasks</h3>
+                <span className="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full uppercase">
+                  Attention ({tasks.length})
                 </span>
-                <span className="font-semibold text-text-primary">23 Classes</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="flex items-center">
-                  <span className="h-2 w-2 rounded-full bg-danger mr-2" />
-                  Leave average
-                </span>
-                <span className="font-semibold text-text-primary">2 Classes</span>
+
+              <div className="space-y-3.5">
+                {tasks.length === 0 ? (
+                  <div className="p-8 text-center text-slate-400 flex flex-col items-center justify-center">
+                    <CheckSquare className="h-10 w-10 text-emerald-500 mb-2" />
+                    <span className="text-xs font-bold">Perfect! No pending action items.</span>
+                  </div>
+                ) : (
+                  tasks.map((task) => (
+                    <button
+                      key={task.id}
+                      onClick={() => handleOpenTask(task)}
+                      className="w-full flex items-center justify-between p-3.5 bg-slate-50 border border-slate-100 rounded-xl hover:border-slate-300 transition-all text-left focus-ring cursor-pointer"
+                    >
+                      <div>
+                        <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block">{task.category}</span>
+                        <span className="text-xs font-extrabold text-slate-800 mt-1 block">{task.title}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="h-5 w-5 bg-amber-50 border border-amber-200 text-amber-600 text-[10px] font-black rounded-full flex items-center justify-center flex-shrink-0">
+                          {task.count}
+                        </span>
+                        <ChevronRight className="h-4.5 w-4.5 text-slate-400" />
+                      </div>
+                    </button>
+                  ))
+                )}
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+
+          {/* Class Attendance Average */}
+          <Card className="border-slate-100 shadow-sm bg-white">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+                <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Class Attendance Average</h3>
+              </div>
+
+              <div className="flex flex-col items-center justify-center py-2">
+                <div className="relative h-28 w-28 flex items-center justify-center select-none">
+                  <svg className="h-full w-full transform -rotate-90" viewBox="0 0 36 36">
+                    <path
+                      className="text-slate-100"
+                      strokeWidth="3.5"
+                      stroke="currentColor"
+                      fill="transparent"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <path
+                      className="text-emerald-500"
+                      strokeWidth="3.5"
+                      strokeDasharray="92, 100"
+                      strokeLinecap="round"
+                      stroke="currentColor"
+                      fill="transparent"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                  </svg>
+                  <div className="absolute flex flex-col items-center justify-center">
+                    <span className="text-xl font-black text-slate-900 leading-none">92%</span>
+                    <span className="text-[9px] text-slate-400 font-bold tracking-wider mt-1 uppercase">PRESENT</span>
+                  </div>
+                </div>
+
+                <div className="mt-5 space-y-2 text-xs w-full text-slate-500 font-semibold">
+                  <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+                    <span className="flex items-center text-slate-600">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 mr-2" />
+                      Present average
+                    </span>
+                    <span className="font-extrabold text-slate-900">23 Classes</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="flex items-center text-slate-600">
+                      <span className="h-2.5 w-2.5 rounded-full bg-rose-500 mr-2" />
+                      Leave average
+                    </span>
+                    <span className="font-extrabold text-slate-900">2 Classes</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+        </div>
+
       </div>
 
       {/* Task Action Drawer */}
@@ -272,22 +343,22 @@ export default function FacultyDashboard() {
         }
       >
         {selectedTask && (
-          <div className="space-y-5">
+          <div className="space-y-5 text-left">
             <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl space-y-2.5">
-              <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">
+              <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase block">
                 Task Briefing
               </span>
-              <span className="text-sm font-bold text-text-primary block">
+              <span className="text-xs font-black text-slate-800 block">
                 {selectedTask.title}
               </span>
-              <p className="text-xs text-text-secondary leading-relaxed">
+              <p className="text-xs text-slate-500 leading-relaxed font-semibold">
                 There are {selectedTask.count} items awaiting action in this queue. Completing this maintains curriculum schedules.
               </p>
             </div>
 
             {selectedTask.category === "Grading" && (
               <form onSubmit={handleGradeTask} className="space-y-4">
-                <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">
+                <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase block">
                   Evaluation Form
                 </span>
                 <Input
@@ -305,10 +376,10 @@ export default function FacultyDashboard() {
 
             {selectedTask.category !== "Grading" && (
               <div className="space-y-3">
-                <span className="text-[10px] font-bold text-text-muted tracking-wider uppercase block">
+                <span className="text-[10px] font-bold text-slate-400 tracking-wider uppercase block">
                   Complete Task
                 </span>
-                <p className="text-xs text-text-secondary leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed font-semibold">
                   Verify sheets and submit final logs to department coordinator.
                 </p>
                 <Button variant="primary" onClick={() => {
@@ -323,6 +394,7 @@ export default function FacultyDashboard() {
           </div>
         )}
       </Drawer>
+
     </div>
   );
 }

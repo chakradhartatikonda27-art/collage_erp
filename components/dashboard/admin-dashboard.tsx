@@ -2,16 +2,12 @@
 
 import React, { useState } from "react";
 import { useERP } from "@/context/erp-context";
-import { mockRecentActivities, mockApprovals } from "@/lib/mock-data";
-import { KPICard } from "./widgets/kpi-card";
-import { TrendingAnalyticsDashboard } from "./widgets/trending-analytics";
-import { Sparkles } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { mockRecentActivities } from "@/lib/mock-data";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { 
   UserPlus, 
   BookOpen, 
@@ -23,11 +19,19 @@ import {
   Activity,
   UserCheck,
   CheckCircle,
-  Plus
+  Plus,
+  GraduationCap,
+  ChevronRight,
+  Sparkles,
+  ArrowRight
 } from "lucide-react";
 
 export default function AdminDashboard() {
   const { activeUser, addToast } = useERP();
+
+  const handleActionClick = (actionName: string) => {
+    addToast(`Triggered: ${actionName} workflow`, "info");
+  };
   
   // States for Quick Action Modals
   const [studentModalOpen, setStudentModalOpen] = useState(false);
@@ -40,7 +44,6 @@ export default function AdminDashboard() {
   
   // Notice Form states
   const [noticeTitle, setNoticeTitle] = useState("");
-  const [noticeCategory, setNoticeCategory] = useState("General");
 
   const handleCreateStudent = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +52,6 @@ export default function AdminDashboard() {
       return;
     }
     
-    // Simulate API call success
     addToast(`Successfully created student profile for ${studentName} (${studentProgram})`, "success");
     setStudentModalOpen(false);
     setStudentName("");
@@ -63,89 +65,149 @@ export default function AdminDashboard() {
       return;
     }
     
-    // Simulate Notice Board publishing
     addToast(`Published notice: "${noticeTitle}" to Notice Board`, "success");
     setNoticeModalOpen(false);
     setNoticeTitle("");
   };
 
-  const quickActions = [
-    { label: "Add Student", icon: UserPlus, color: "text-primary-blue bg-primary-blue-light border-primary-blue/20", action: () => setStudentModalOpen(true) },
-    { label: "Add Faculty", icon: UserPlus, color: "text-academic bg-academic-light border-academic/20", action: () => addToast("Add Faculty wizard opened", "info") },
-    { label: "Create Notice", icon: MessageSquare, color: "text-warning bg-warning-light border-warning/20", action: () => setNoticeModalOpen(true) },
-    { label: "Mark Attendance", icon: Calendar, color: "text-success bg-success-light border-success/20", action: () => addToast("Mark Attendance spreadsheet opened", "info") },
-    { label: "Collect Fee", icon: CreditCard, color: "text-info bg-info-light border-info/20", action: () => addToast("Collect fee invoice terminal loaded", "info") },
-    { label: "Generate Report", icon: FileSpreadsheet, color: "text-text-primary bg-slate-100 border-slate-200", action: () => addToast("Strategic reports dashboard loaded", "info") }
+  const quickAccessItems = [
+    { label: "Add Student", icon: UserPlus, bg: "bg-blue-50 text-blue-600 hover:bg-blue-100", action: () => setStudentModalOpen(true) },
+    { label: "Add Faculty", icon: UserPlus, bg: "bg-emerald-50 text-emerald-600 hover:bg-emerald-100", action: () => addToast("Add Faculty wizard opened", "info") },
+    { label: "Create Notice", icon: MessageSquare, bg: "bg-orange-50 text-orange-600 hover:bg-orange-100", action: () => setNoticeModalOpen(true) },
+    { label: "Attendance", icon: Calendar, bg: "bg-purple-50 text-purple-600 hover:bg-purple-100", action: () => addToast("Mark Attendance spreadsheet opened", "info") },
+    { label: "Collect Fee", icon: CreditCard, bg: "bg-rose-50 text-rose-600 hover:bg-rose-100", action: () => addToast("Collect fee invoice terminal loaded", "info") },
+    { label: "Reports", icon: FileSpreadsheet, bg: "bg-sky-50 text-sky-600 hover:bg-sky-100", action: () => addToast("Strategic reports dashboard loaded", "info") }
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-xl md:text-2xl font-extrabold text-text-primary tracking-tight">
-          Campus Operations & Administration
-        </h1>
-        <p className="text-xs md:text-sm text-text-secondary mt-1">
-          Welcome back, {activeUser.name} • Operational Overview & Tasks
-        </p>
-      </div>
-
-      {/* 3D Campus Hub Banner */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
-        <div className="space-y-3 z-10 max-w-xl text-left">
-          <div className="inline-flex items-center space-x-2 bg-indigo-550/15 px-3 py-1 rounded-full border border-indigo-500/20 text-xs font-bold text-indigo-400">
-            <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-            <span>Virtual Operational Center</span>
+    <div className="space-y-6 max-w-7xl mx-auto px-1 animate-in fade-in duration-300">
+      
+      {/* 1. Header Banner Card */}
+      <Card className="border-slate-100 shadow-sm bg-white overflow-hidden">
+        <CardContent className="p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center space-x-4">
+            <div className="h-14 w-14 rounded-full bg-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+              <GraduationCap className="h-8 w-8 text-white" />
+            </div>
+            <div className="text-left">
+              <h2 className="text-lg font-black text-slate-900 leading-snug">
+                Good Morning, {activeUser.name}! 👋
+              </h2>
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                {activeUser.roleTitle || "Administrator"} | Operational Control Console
+              </p>
+            </div>
           </div>
-          <h2 className="text-xl md:text-2xl font-black text-white leading-tight">
-            Comprehensive Management Grid
-          </h2>
-          <p className="text-xs text-slate-400 leading-relaxed font-semibold">
-            Monitor real-time infrastructure threads, educational performance charts, admissions flow, and candidate queues from a single virtual space.
-          </p>
-        </div>
-        <div className="w-full md:w-36 h-36 rounded-xl overflow-hidden border border-slate-850 flex-shrink-0 shadow-2xl relative group">
-          <img 
-            src="/futuristic_college_3d.jpg" 
-            alt="Virtual Hub 3D" 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end p-2">
-            <span className="text-[9px] font-black text-indigo-300 uppercase tracking-widest">3D Campus Model</span>
+          <div className="text-right">
+            <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-600 font-black py-1.5 px-3.5">
+              Academic Term: 2026 - 2027
+            </Badge>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* 2. Color-Coded Stats Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+        {/* Total Students */}
+        <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-blue-100/80 flex items-center justify-center text-blue-600">
+            <UserPlus className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">3,245</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Students</span>
+          </div>
+          <span className="text-[9px] text-blue-500 font-bold">Active this semester</span>
+        </div>
+
+        {/* Faculty & Staff */}
+        <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-emerald-100/80 flex items-center justify-center text-emerald-600">
+            <UserCheck className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">248</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Faculty</span>
+          </div>
+          <span className="text-[9px] text-emerald-500 font-bold">8 new onboarding</span>
+        </div>
+
+        {/* Admission Enquiries */}
+        <div className="bg-orange-50/50 border border-orange-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-orange-100/80 flex items-center justify-center text-orange-600">
+            <MessageSquare className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">142</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Enquiries</span>
+          </div>
+          <span className="text-[9px] text-orange-500 font-bold">Pending response</span>
+        </div>
+
+        {/* Pending Requests */}
+        <div className="bg-purple-50/50 border border-purple-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-purple-100/80 flex items-center justify-center text-purple-600">
+            <Clock className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-2xl font-black text-slate-900">28</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Tickets</span>
+          </div>
+          <span className="text-[9px] text-purple-500 font-bold">Helpdesk tickets open</span>
+        </div>
+
+        {/* Collected (Month) */}
+        <div className="bg-sky-50/50 border border-sky-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-sky-100/80 flex items-center justify-center text-sky-600">
+            <CreditCard className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-xl font-black text-slate-900">₹1.68Cr</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Collected</span>
+          </div>
+          <span className="text-[9px] text-sky-500 font-bold">82% of target</span>
+        </div>
+
+        {/* Outstanding Fees */}
+        <div className="bg-rose-50/50 border border-rose-100 rounded-2xl p-4 flex flex-col justify-between items-center text-center shadow-sm">
+          <div className="h-9 w-9 rounded-xl bg-rose-100/80 flex items-center justify-center text-rose-600">
+            <CreditCard className="h-4.5 w-4.5" />
+          </div>
+          <div className="my-2.5">
+            <span className="text-xl font-black text-slate-900">₹42.3L</span>
+            <span className="text-[10px] text-slate-500 font-bold block uppercase mt-0.5">Outstanding</span>
+          </div>
+          <span className="text-[9px] text-rose-500 font-bold">Reminders sent</span>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <KPICard title="Total Students" value="3,245" change="Active this semester" isPositive={true} type="info" />
-        <KPICard title="Faculty & Staff" value="248" change="8 new onboarding" isPositive={true} type="academic" />
-        <KPICard title="Admission Enquiries" value="142" change="Pending response" isPositive={false} type="warning" />
-        <KPICard title="Pending Requests" value="28" change="Helpdesk tickets open" isPositive={false} type="warning" />
-        <KPICard title="Collected (Month)" value="₹1.68 Cr" change="82% of target" isPositive={true} type="success" />
-        <KPICard title="Outstanding Fees" value="₹42.30 L" change="Reminders sent" isPositive={false} type="danger" />
-      </div>
-
-      {/* Quick Access Actions Bar */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Administrative Quick Actions</CardTitle>
-        </CardHeader>
+      {/* 3. Quick Actions */}
+      <Card className="border-slate-100 shadow-sm bg-white">
         <CardContent className="p-6">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {quickActions.map((action, idx) => {
-              const IconComponent = action.icon;
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Administrative Quick Actions</h3>
+            <button 
+              onClick={() => handleActionClick("Quick Actions View All")}
+              className="text-xs font-black text-blue-600 hover:underline flex items-center cursor-pointer"
+            >
+              <span>View All</span>
+              <ChevronRight className="h-3.5 w-3.5 ml-0.5" />
+            </button>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 justify-items-center">
+            {quickAccessItems.map((item, idx) => {
+              const Icon = item.icon;
               return (
                 <button
                   key={idx}
-                  onClick={action.action}
-                  className="flex flex-col items-center justify-center p-4 rounded-xl border border-border-base hover:border-border-focus hover:shadow-soft transition-all duration-300 group cursor-pointer focus-ring"
+                  onClick={item.action}
+                  className="w-full flex flex-col items-center justify-center p-3 border border-slate-100 hover:border-slate-350 rounded-2xl group focus-ring cursor-pointer bg-slate-50/40 hover:bg-slate-50"
                 >
-                  <div className={`h-11 w-11 rounded-lg flex items-center justify-center border mb-3 group-hover:scale-105 transition-transform ${action.color}`}>
-                    <IconComponent className="h-5 w-5" />
+                  <div className={`h-11 w-11 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm border border-slate-100/50 ${item.bg}`}>
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <span className="text-xs font-bold text-text-primary text-center leading-none">
-                    {action.label}
+                  <span className="text-[11px] font-bold text-slate-655 mt-2.5 text-center group-hover:text-slate-900 leading-none">
+                    {item.label}
                   </span>
                 </button>
               );
@@ -154,29 +216,25 @@ export default function AdminDashboard() {
         </CardContent>
       </Card>
 
-      {/* Real-time Trending & Analytical Graphs */}
-      <TrendingAnalyticsDashboard />
+      {/* 4. Symmetrical Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Left Column: Recent Activities */}
+        <Card className="border-slate-100 shadow-sm bg-white">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+              <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase">Recent Operational Log</h3>
+              <Badge variant="outline" className="bg-emerald-50 border-emerald-250 text-emerald-600 font-bold">Live Feed</Badge>
+            </div>
 
-      {/* Activities and Approvals */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Activities */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center space-x-2">
-              <Activity className="h-4.5 w-4.5 text-primary-blue animate-pulse" />
-              <span>Recent Operational Log</span>
-            </CardTitle>
-            <Badge variant="outline">Live Feed</Badge>
-          </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y divide-border-base">
+            <div className="space-y-4">
               {mockRecentActivities.map((act, idx) => (
-                <div key={idx} className="p-4 flex items-start justify-between hover:bg-slate-50 transition-colors">
-                  <div className="space-y-1 pr-4">
-                    <span className="text-xs font-semibold text-text-primary leading-snug">
+                <div key={idx} className="flex items-start justify-between">
+                  <div className="text-left space-y-1">
+                    <span className="text-xs font-extrabold text-slate-800 leading-snug">
                       {act.text}
                     </span>
-                    <div className="flex items-center space-x-2 text-[10px] text-text-muted">
+                    <div className="flex items-center space-x-2 text-[10px] text-slate-400 font-semibold">
                       <span>{act.time}</span>
                       <span>•</span>
                       <span>By: {act.role}</span>
@@ -189,35 +247,37 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* Short Pending Approvals view */}
-        <Card>
-          <CardHeader>
-            <CardTitle>System Task Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 space-y-3.5 text-xs text-text-secondary">
-            <div className="flex items-center justify-between pb-2.5 border-b border-border-base/50">
-              <span className="font-semibold text-text-muted">Classroom Allocations</span>
-              <Badge variant="success">96% Allocated</Badge>
+        {/* Right Column: System Task Overview */}
+        <Card className="border-slate-100 shadow-sm bg-white">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center mb-4 pb-1.5 border-b border-slate-100">
+              <h3 className="text-sm font-black text-slate-800 tracking-wide uppercase text-left">System Task Overview</h3>
             </div>
-            <div className="flex items-center justify-between pb-2.5 border-b border-border-base/50">
-              <span className="font-semibold text-text-muted">Exam Hall Roll Sheets</span>
-              <Badge variant="success">Generated</Badge>
-            </div>
-            <div className="flex items-center justify-between pb-2.5 border-b border-border-base/50">
-              <span className="font-semibold text-text-muted">Salary Slips - May 2026</span>
-              <Badge variant="success">Released</Badge>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-text-muted">IT Infrastructure Ticket</span>
-              <Badge variant="warning">3 Pending Audit</Badge>
+
+            <div className="space-y-4 text-xs font-semibold text-slate-500">
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 text-left">
+                <span className="text-slate-600 font-extrabold">Classroom Allocations</span>
+                <Badge variant="success" className="text-[10px] font-black uppercase">96% Allocated</Badge>
+              </div>
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 text-left">
+                <span className="text-slate-600 font-extrabold">Exam Hall Roll Sheets</span>
+                <Badge variant="success" className="text-[10px] font-black uppercase">Generated</Badge>
+              </div>
+              <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 text-left">
+                <span className="text-slate-600 font-extrabold">Salary Slips - May 2026</span>
+                <Badge variant="success" className="text-[10px] font-black uppercase">Released</Badge>
+              </div>
+              <div className="flex items-center justify-between text-left">
+                <span className="text-slate-600 font-extrabold">IT Infrastructure Tickets</span>
+                <Badge variant="warning" className="text-[10px] font-black uppercase bg-amber-50 border-amber-200 text-amber-600">3 Pending Audit</Badge>
+              </div>
             </div>
           </CardContent>
         </Card>
+
       </div>
 
       {/* QUICK ACTION MODALS */}
-
-      {/* Add Student Modal */}
       <Modal
         isOpen={studentModalOpen}
         onClose={() => setStudentModalOpen(false)}
@@ -229,15 +289,15 @@ export default function AdminDashboard() {
               Cancel
             </Button>
             <Button variant="primary" onClick={handleCreateStudent}>
-              Onboard Student
+              Create Profile
             </Button>
           </div>
         }
       >
-        <form onSubmit={handleCreateStudent} className="space-y-4">
+        <form onSubmit={handleCreateStudent} className="space-y-4 text-left">
           <Input
             label="Full Name *"
-            placeholder="e.g. Rahul Sharma"
+            placeholder="e.g. Aarav Mehta"
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             required
@@ -245,67 +305,54 @@ export default function AdminDashboard() {
           <Input
             label="Email Address *"
             type="email"
-            placeholder="e.g. rahul.s@gmail.com"
+            placeholder="aarav@gmail.com"
             value={studentEmail}
             onChange={(e) => setStudentEmail(e.target.value)}
             required
           />
-          <div className="grid grid-cols-2 gap-4">
-            <Select
-              label="Academic Program"
+          <div className="space-y-1">
+            <label className="text-[11px] font-bold text-slate-450 uppercase block">Selected Degree *</label>
+            <select
               value={studentProgram}
               onChange={(e) => setStudentProgram(e.target.value)}
+              className="w-full text-xs font-semibold text-slate-800 p-2.5 border border-slate-200 rounded-lg bg-white outline-none cursor-pointer focus-ring"
             >
-              <option value="B.Tech">B.Tech (CSE)</option>
-              <option value="BCA">BCA (CS)</option>
-              <option value="BBA">BBA (Marketing)</option>
-              <option value="MBA">MBA (Finance)</option>
-            </Select>
-            <Select label="Batch Year">
-              <option value="2026">2026 - 2030</option>
-              <option value="2025">2025 - 2029</option>
-            </Select>
+              <option value="B.Tech">B.Tech (Engineering)</option>
+              <option value="B.Sc">B.Sc (Science)</option>
+              <option value="B.Arch">B.Arch (Architecture)</option>
+              <option value="MBA">MBA (Management)</option>
+            </select>
           </div>
         </form>
       </Modal>
 
-      {/* Create Notice Modal */}
       <Modal
         isOpen={noticeModalOpen}
         onClose={() => setNoticeModalOpen(false)}
-        title="Publish notice description"
-        description="Draft a notice to broadcast to the institution."
+        title="Publish General Campus Notice"
+        description="Enter announcement details to post to all institutional channels."
         footer={
           <div className="flex space-x-2 w-full justify-end">
             <Button variant="outline" onClick={() => setNoticeModalOpen(false)}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleCreateNotice}>
-              Publish Notice
+              Publish Announcement
             </Button>
           </div>
         }
       >
-        <form onSubmit={handleCreateNotice} className="space-y-4">
+        <form onSubmit={handleCreateNotice} className="space-y-4 text-left">
           <Input
-            label="Notice Announcement Description *"
-            placeholder="e.g. Lab audit schedules released for CS batch..."
+            label="Notice Title *"
+            placeholder="e.g. Mid-term examinations scheduling notices"
             value={noticeTitle}
             onChange={(e) => setNoticeTitle(e.target.value)}
             required
           />
-          <Select
-            label="Notice Category"
-            value={noticeCategory}
-            onChange={(e) => setNoticeCategory(e.target.value)}
-          >
-            <option value="General">General / Announcements</option>
-            <option value="Academic">Academic / Syllabus</option>
-            <option value="Exam">Examinations / Marks</option>
-            <option value="Placement">Training & Placement Drives</option>
-          </Select>
         </form>
       </Modal>
+
     </div>
   );
 }
